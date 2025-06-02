@@ -135,7 +135,7 @@
             <p class="text-lg mb-2 text-center text-gray-700">Mata Pelajaran: Pendidikan Pancasila</p>
             <p class="text-md mb-6 text-center text-gray-600">Uji pemahaman Anda berdasarkan kisi-kisi SMAN 2 Cikampek. Kuis ini berisi contoh soal untuk latihan.</p>
             <div class="text-center mb-4">
-                <p class="text-sm text-gray-500">Jumlah Soal: <span id="total-questions-welcome"></span> (Contoh)</p>
+                <p class="text-sm text-gray-500">Jumlah Soal: <span id="total-questions-welcome"></span></p>
                 <p class="text-sm text-gray-500">Alokasi Waktu Simulasi: 80 Menit (untuk 30 soal)</p>
             </div>
             <button id="start-quiz-btn" class="btn btn-primary w-full text-lg">Mulai Kuis</button>
@@ -300,6 +300,127 @@
                     { text: "Untuk mengganti ideologi Pancasila dengan ideologi asing yang dianggap lebih modern.", correct: false }
                 ],
                 explanation: "Tujuan hubungan internasional bagi Indonesia antara lain adalah untuk melindungi kepentingan nasional (seperti kedaulatan negara dan keutuhan wilayah), meningkatkan kesejahteraan rakyat, serta turut serta dalam melaksanakan ketertiban dunia yang berdasarkan kemerdekaan, perdamaian abadi, dan keadilan sosial, sesuai amanat Pembukaan UUD NRI Tahun 1945."
+            },
+            // --- SOAL TAMBAHAN MULAI DARI SINI ---
+            {
+                indicator: "Peserta didik mampu memberikan contoh peran warga negara dalam upaya pertahanan dan keamanan negara.",
+                questionText: "Salah satu bentuk peran aktif warga negara dalam upaya pertahanan dan keamanan negara di lingkungan masyarakat adalah...",
+                options: [
+                    { text: "Menjadi anggota partai politik tertentu untuk menyuarakan aspirasi keamanan.", correct: false },
+                    { text: "Mengikuti pelatihan militer secara mandiri di luar negeri.", correct: false },
+                    { text: "Melaporkan kegiatan yang mencurigakan dan berpotensi mengganggu keamanan kepada pihak berwajib.", correct: true },
+                    { text: "Hanya mengandalkan TNI dan Polri untuk menjaga keamanan tanpa partisipasi aktif.", correct: false },
+                    { text: "Menyebarkan berita bohong tentang isu keamanan untuk meningkatkan kewaspadaan.", correct: false }
+                ],
+                explanation: "Peran warga negara dalam pertahanan dan keamanan dapat diwujudkan melalui berbagai cara, salah satunya adalah dengan meningkatkan kesadaran akan lingkungan sekitar dan melaporkan hal-hal yang mencurigakan kepada aparat keamanan. Ini adalah bentuk partisipasi aktif dalam menjaga ketertiban dan keamanan."
+            },
+            {
+                indicator: "Peserta didik mampu menunjukkan syarat-syarat yang harus dipenuhi jika warga negara menjadi anggota komponen cadangan.",
+                questionText: "Untuk menjadi anggota Komponen Cadangan (Komcad) yang mendukung pertahanan negara, seorang warga negara harus memenuhi beberapa persyaratan. Salah satu syarat utamanya adalah...",
+                options: [
+                    { text: "Memiliki latar belakang pendidikan militer formal sebelumnya.", correct: false },
+                    { text: "Berusia minimal 35 tahun dan maksimal 50 tahun.", correct: false },
+                    { text: "Sehat jasmani dan rohani, serta bersedia mengikuti pelatihan dasar kemiliteran.", correct: true },
+                    { text: "Tidak memiliki pekerjaan tetap agar bisa fokus pada tugas Komcad.", correct: false },
+                    { text: "Wajib berasal dari keluarga anggota TNI atau Polri.", correct: false }
+                ],
+                explanation: "Syarat menjadi anggota Komponen Cadangan antara lain adalah WNI, berusia 18-35 tahun (saat pendaftaran), sehat jasmani dan rohani, tidak memiliki catatan kriminal, beriman dan bertakwa kepada Tuhan YME, serta bersedia mengikuti pelatihan dasar kemiliteran dan dimobilisasi."
+            },
+            {
+                indicator: "Peserta didik mampu menganalisis faktor penyebab internal suatu negara melakukan hubungan internasional.",
+                questionText: "Suatu negara memutuskan untuk menjalin hubungan dagang dengan negara lain karena kebutuhan akan sumber daya alam tertentu yang tidak dimiliki di dalam negerinya sangat tinggi untuk mendukung industri domestik. Faktor apakah yang paling dominan mendorong negara tersebut melakukan hubungan internasional?",
+                options: [
+                    { text: "Intervensi dari negara lain yang lebih kuat.", correct: false },
+                    { text: "Keinginan untuk menguasai negara lain secara politik.", correct: false },
+                    { text: "Keterbatasan kemampuan negara dalam memenuhi kebutuhan nasionalnya sendiri (faktor internal).", correct: true },
+                    { text: "Adanya perbedaan ideologi yang signifikan dengan negara tetangga.", correct: false },
+                    { text: "Dorongan untuk menyebarkan pengaruh budaya ke seluruh dunia.", correct: false }
+                ],
+                explanation: "Faktor internal pendorong hubungan internasional meliputi keterbatasan sumber daya alam, kebutuhan untuk memenuhi kepentingan ekonomi nasional, keinginan untuk meningkatkan kesejahteraan, serta adanya ketergantungan dalam memecahkan masalah-masalah global."
+            },
+            {
+                indicator: "Peserta didik mampu memahami dasar hukum pelaksanaan hubungan internasional.",
+                questionText: "Pelaksanaan hubungan internasional oleh Indonesia didasarkan pada landasan ideal dan konstitusional. Landasan ideal bagi politik luar negeri Indonesia adalah...",
+                options: [
+                    { text: "UUD NRI Tahun 1945, terutama Pasal 11 dan Pasal 13.", correct: false },
+                    { text: "Pancasila, khususnya sila Kemanusiaan yang Adil dan Beradab serta Persatuan Indonesia.", correct: true },
+                    { text: "Undang-Undang Nomor 37 Tahun 1999 tentang Hubungan Luar Negeri.", correct: false },
+                    { text: "Keputusan Presiden terkait perjanjian internasional tertentu.", correct: false },
+                    { text: "Konvensi Wina tahun 1961 tentang Hubungan Diplomatik.", correct: false }
+                ],
+                explanation: "Landasan ideal politik luar negeri Indonesia adalah Pancasila. Sementara landasan konstitusionalnya adalah UUD NRI Tahun 1945 (terutama Pembukaan alinea IV, Pasal 11, dan Pasal 13). Landasan operasionalnya adalah UU, Kepres, dan peraturan lainnya."
+            },
+            {
+                indicator: "Peserta didik mampu menganalisis asas hubungan internasional (misalnya, asas teritorial).",
+                questionText: "Sebuah negara memberlakukan hukumnya bagi semua orang dan semua barang yang ada di wilayahnya, tanpa terkecuali, termasuk warga negara asing yang melakukan tindak pidana di dalam batas negaranya. Asas hubungan internasional manakah yang diterapkan oleh negara tersebut?",
+                options: [
+                    { text: "Asas Kebangsaan (Nasionalitas)", correct: false },
+                    { text: "Asas Kepentingan Umum", correct: false },
+                    { text: "Asas Teritorial", correct: true },
+                    { text: "Asas Resiprositas (Timbal Balik)", correct: false },
+                    { text: "Asas Pacta Sunt Servanda", correct: false }
+                ],
+                explanation: "Asas teritorial menyatakan bahwa negara memiliki kedaulatan penuh untuk memberlakukan hukumnya atas semua orang dan barang yang berada di dalam wilayahnya. Asas kebangsaan berarti hukum negara tetap berlaku bagi warga negaranya meskipun berada di luar negeri. Asas kepentingan umum melindungi kepentingan vital negara."
+            },
+            {
+                indicator: "Peserta didik mampu menunjukkan peran Indonesia dalam menciptakan perdamaian dunia melalui organisasi internasional (PBB, ASEAN).",
+                questionText: "Indonesia sering mengirimkan pasukan Kontingen Garuda untuk bergabung dalam misi pemeliharaan perdamaian di bawah bendera Perserikatan Bangsa-Bangsa (PBB) ke berbagai negara yang dilanda konflik. Tindakan ini merupakan wujud nyata peran Indonesia dalam...",
+                options: [
+                    { text: "Mencampuri urusan dalam negeri negara lain secara militer.", correct: false },
+                    { text: "Memperluas pengaruh politik Indonesia di kawasan konflik.", correct: false },
+                    { text: "Menciptakan perdamaian dunia sesuai amanat Pembukaan UUD NRI Tahun 1945.", correct: true },
+                    { text: "Melakukan uji coba kemampuan militer di medan internasional.", correct: false },
+                    { text: "Mendapatkan keuntungan ekonomi dari negara yang dibantu.", correct: false }
+                ],
+                explanation: "Pengiriman Kontingen Garuda adalah salah satu bentuk kontribusi aktif Indonesia dalam menjaga perdamaian dan keamanan internasional, sejalan dengan tujuan PBB dan amanat konstitusi untuk ikut melaksanakan ketertiban dunia."
+            },
+            {
+                indicator: "Peserta didik mampu memahami tugas kepala negara dalam hubungan internasional.",
+                questionText: "Menurut UUD NRI Tahun 1945, dalam menjalankan hubungan internasional, Presiden Republik Indonesia memiliki kewenangan untuk menyatakan perang, membuat perdamaian, dan perjanjian dengan negara lain. Namun, untuk tindakan tersebut, Presiden memerlukan persetujuan dari lembaga negara yaitu...",
+                options: [
+                    { text: "Mahkamah Agung (MA)", correct: false },
+                    { text: "Dewan Perwakilan Rakyat (DPR)", correct: true },
+                    { text: "Majelis Permusyawaratan Rakyat (MPR)", correct: false },
+                    { text: "Dewan Pertimbangan Presiden (Wantimpres)", correct: false },
+                    { text: "Menteri Luar Negeri secara mandiri", correct: false }
+                ],
+                explanation: "Pasal 11 UUD NRI Tahun 1945 menyatakan bahwa Presiden dengan persetujuan Dewan Perwakilan Rakyat menyatakan perang, membuat perdamaian dan perjanjian dengan negara lain. Ini menunjukkan adanya mekanisme check and balances."
+            },
+            {
+                indicator: "Peserta didik mampu memberi contoh penerapan nilai-nilai Pancasila sila ke-2 yang harus diwujudkan dalam pembangunan nasional.",
+                questionText: "Pemerintah menggalakkan program Jaminan Kesehatan Nasional (JKN) untuk memastikan seluruh lapisan masyarakat mendapatkan akses pelayanan kesehatan yang layak tanpa diskriminasi. Program ini merupakan wujud pengamalan nilai Pancasila, terutama sila...",
+                options: [
+                    { text: "Ketuhanan Yang Maha Esa", correct: false },
+                    { text: "Kemanusiaan yang adil dan beradab", correct: true },
+                    { text: "Persatuan Indonesia", correct: false },
+                    { text: "Kerakyatan yang dipimpin oleh hikmat kebijaksanaan dalam permusyawaratan/perwakilan", correct: false },
+                    { text: "Keadilan sosial bagi seluruh rakyat Indonesia", correct: false }
+                ],
+                explanation: "Sila Kemanusiaan yang adil dan beradab menekankan pada perlakuan yang adil dan setara terhadap sesama manusia, termasuk dalam hal pemenuhan hak dasar seperti kesehatan. Program JKN bertujuan mewujudkan hal tersebut."
+            },
+            {
+                indicator: "Peserta didik mampu memberi contoh penerapan nilai-nilai Pancasila sila ke-4 yang harus diwujudkan dalam pembangunan nasional.",
+                questionText: "Dalam proses penyusunan Rencana Pembangunan Jangka Menengah Desa (RPJMDes), pemerintah desa mengadakan musyawarah yang melibatkan berbagai unsur masyarakat untuk menampung aspirasi dan mencapai mufakat. Praktik ini mencerminkan nilai Pancasila sila...",
+                options: [
+                    { text: "Ketuhanan Yang Maha Esa", correct: false },
+                    { text: "Kemanusiaan yang adil dan beradab", correct: false },
+                    { text: "Persatuan Indonesia", correct: false },
+                    { text: "Kerakyatan yang dipimpin oleh hikmat kebijaksanaan dalam permusyawaratan/perwakilan", correct: true },
+                    { text: "Keadilan sosial bagi seluruh rakyat Indonesia", correct: false }
+                ],
+                explanation: "Sila keempat Pancasila menekankan pentingnya musyawarah untuk mufakat dalam pengambilan keputusan yang menyangkut kepentingan bersama. Keterlibatan masyarakat dalam perencanaan pembangunan adalah contoh konkretnya."
+            },
+            {
+                indicator: "Peserta didik mampu memberi contoh penerapan nilai-nilai Pancasila sila ke-5 yang harus diwujudkan dalam pembangunan nasional.",
+                questionText: "Pemerintah berupaya memastikan bahwa hasil-hasil pembangunan, seperti infrastruktur jalan, listrik, dan akses pendidikan, dapat dinikmati secara merata oleh seluruh rakyat Indonesia di berbagai daerah, baik di perkotaan maupun di pedesaan. Upaya ini sejalan dengan nilai Pancasila sila...",
+                options: [
+                    { text: "Ketuhanan Yang Maha Esa", correct: false },
+                    { text: "Kemanusiaan yang adil dan beradab", correct: false },
+                    { text: "Persatuan Indonesia", correct: false },
+                    { text: "Kerakyatan yang dipimpin oleh hikmat kebijaksanaan dalam permusyawaratan/perwakilan", correct: false },
+                    { text: "Keadilan sosial bagi seluruh rakyat Indonesia", correct: true }
+                ],
+                explanation: "Sila kelima Pancasila mengamanatkan terwujudnya keadilan sosial bagi seluruh rakyat Indonesia, yang berarti hasil pembangunan harus dapat dirasakan manfaatnya secara adil dan merata oleh seluruh lapisan masyarakat tanpa terkecuali."
             }
         ];
 
