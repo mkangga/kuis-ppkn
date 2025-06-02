@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis PSAT Pendidikan Pancasila</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Warna latar belakang yang lebih lembut */
+            color: #1a202c; /* Warna teks utama */
+        }
+        .quiz-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 12px; /* Sudut lebih bulat */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Bayangan lebih halus */
+        }
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-primary {
+            background-color: #4F46E5; /* Warna biru indigo */
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #4338CA;
+        }
+        .btn-secondary {
+            background-color: #6B7280; /* Warna abu-abu */
+            color: white;
+        }
+        .btn-secondary:hover {
+            background-color: #4B5563;
+        }
+        .option-btn {
+            display: block;
+            width: 100%;
+            text-align: left;
+            margin-bottom: 0.75rem;
+            padding: 0.75rem 1rem;
+            border: 1px solid #D1D5DB; /* Batas abu-abu muda */
+            border-radius: 8px;
+            background-color: #F9FAFB; /* Latar belakang opsi sedikit abu-abu */
+            transition: all 0.2s ease;
+        }
+        .option-btn:hover {
+            background-color: #E5E7EB; /* Efek hover lebih jelas */
+            border-color: #9CA3AF;
+        }
+        .option-btn.selected {
+            background-color: #D1FAE5; /* Hijau muda untuk yang dipilih */
+            border-color: #10B981; /* Batas hijau */
+            color: #065F46; /* Teks hijau tua */
+        }
+        .option-btn.correct {
+            background-color: #A7F3D0; /* Hijau lebih terang untuk jawaban benar */
+            border-color: #059669;
+            color: #047857;
+        }
+        .option-btn.incorrect {
+            background-color: #FEE2E2; /* Merah muda untuk jawaban salah */
+            border-color: #EF4444;
+            color: #B91C1C; /* Teks merah tua */
+        }
+        .hidden {
+            display: none;
+        }
+        #feedback-message {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-weight: 500;
+            line-height: 1.6; /* Jarak antar baris untuk penjelasan */
+        }
+        .feedback-correct {
+            background-color: #D1FAE5;
+            color: #065F46;
+        }
+        .feedback-incorrect {
+            background-color: #FEE2E2;
+            color: #B91C1C;
+        }
+        #detailed-results ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        #detailed-results li {
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+            border: 1px solid #E5E7EB;
+        }
+        #detailed-results .correct-answer-text {
+            color: #059669; /* Hijau untuk teks jawaban benar */
+            font-weight: 600;
+        }
+        #detailed-results .user-answer-text-correct {
+            color: #059669;
+        }
+        #detailed-results .user-answer-text-incorrect {
+            color: #B91C1C; /* Merah untuk teks jawaban salah pengguna */
+            text-decoration: line-through;
+        }
+        .progress-bar-container {
+            width: 100%;
+            background-color: #E5E7EB;
+            border-radius: 9999px;
+            margin-bottom: 1.5rem;
+            height: 10px;
+        }
+        .progress-bar {
+            height: 10px;
+            background-color: #4F46E5;
+            border-radius: 9999px;
+            transition: width 0.3s ease-in-out;
+            width: 0%; /* Mulai dari 0% */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+
+    <div class="quiz-container w-full">
+        <div id="welcome-screen">
+            <h1 class="text-3xl font-bold mb-4 text-center text-indigo-700">Selamat Datang di Kuis PSAT</h1>
+            <p class="text-lg mb-2 text-center text-gray-700">Mata Pelajaran: Pendidikan Pancasila</p>
+            <p class="text-md mb-6 text-center text-gray-600">Uji pemahaman Anda berdasarkan kisi-kisi SMAN 2 Cikampek. Kuis ini berisi contoh soal untuk latihan.</p>
+            <div class="text-center mb-4">
+                <p class="text-sm text-gray-500">Jumlah Soal: <span id="total-questions-welcome"></span> (Contoh)</p>
+                <p class="text-sm text-gray-500">Alokasi Waktu Simulasi: 80 Menit (untuk 30 soal)</p>
+            </div>
+            <button id="start-quiz-btn" class="btn btn-primary w-full text-lg">Mulai Kuis</button>
+        </div>
+
+        <div id="quiz-screen" class="hidden">
+            <div id="quiz-header" class="mb-6">
+                <div class="progress-bar-container">
+                    <div id="progress-bar" class="progress-bar"></div>
+                </div>
+                <p class="text-xl font-semibold text-indigo-600 text-center">Soal <span id="current-question-number"></span> dari <span id="total-questions-quiz"></span></p>
+            </div>
+            <div id="question-container" class="mb-6">
+                <p id="question-indicator" class="text-sm text-gray-500 mb-2 italic"></p>
+                <p id="question-text" class="text-lg font-medium mb-4 leading-relaxed"></p>
+                <div id="options-container">
+                    </div>
+            </div>
+            <div id="feedback-message" class="hidden"></div>
+            <div id="navigation-buttons" class="mt-8 flex justify-between">
+                <button id="next-btn" class="btn btn-primary">Soal Berikutnya</button>
+            </div>
+        </div>
+
+        <div id="result-screen" class="hidden">
+            <h2 class="text-3xl font-bold mb-6 text-center text-indigo-700">Hasil Kuis Anda</h2>
+            <div class="bg-indigo-50 p-6 rounded-lg shadow mb-6 text-center">
+                <p class="text-xl text-gray-700">Skor Anda:</p>
+                <p class="text-5xl font-bold text-indigo-600 my-2"><span id="score-value">0</span> / <span id="total-questions-result">0</span></p>
+                <p class="text-lg text-gray-600">Jawaban Benar: <span id="correct-answers-count" class="font-semibold text-green-600">0</span></p>
+                <p class="text-lg text-gray-600">Jawaban Salah: <span id="wrong-answers-count" class="font-semibold text-red-600">0</span></p>
+            </div>
+            
+            <div id="detailed-results-container" class="mb-6">
+                <h3 class="text-xl font-semibold mb-3 text-gray-800">Rincian Jawaban:</h3>
+                <ul id="detailed-results"></ul>
+            </div>
+
+            <button id="restart-quiz-btn" class="btn btn-primary w-full text-lg">Ulangi Kuis</button>
+        </div>
+    </div>
+
+    <script>
+        // --- Data Pertanyaan Kuis ---
+        const quizQuestions = [
+            {
+                indicator: "Peserta didik mampu memahami asal usul semboyan bhinneka tunggal ika.",
+                questionText: "Semboyan negara Indonesia, \"Bhinneka Tunggal Ika,\" memiliki akar sejarah yang mendalam dalam khazanah sastra Nusantara kuno. Dari manakah asal usul kutipan frasa \"Bhinneka Tunggal Ika\"?",
+                options: [
+                    { text: "Kitab Negarakertagama karya Mpu Prapanca", correct: false },
+                    { text: "Kitab Sutasoma karya Mpu Tantular", correct: true },
+                    { text: "Prasasti Yupa dari Kerajaan Kutai", correct: false },
+                    { text: "Serat Centhini", correct: false },
+                    { text: "Babad Tanah Jawi", correct: false }
+                ],
+                explanation: "Frasa Bhinneka Tunggal Ika berasal dari Kitab Sutasoma, karangan Mpu Tantular pada masa Kerajaan Majapahit, yang berarti 'Berbeda-beda tetapi tetap satu jua'."
+            },
+            {
+                indicator: "Peserta didik mampu memahami makna semboyan Bhinneka Tunggal Ika sebagai modal sosial.",
+                questionText: "Di sebuah lingkungan masyarakat yang beragam suku dan agama, sering diadakan kegiatan kerja bakti dan perayaan hari besar keagamaan secara bersama-sama dengan penuh toleransi. Bagaimana semboyan Bhinneka Tunggal Ika tercermin sebagai modal sosial dalam situasi tersebut?",
+                options: [
+                    { text: "Menunjukkan bahwa perbedaan adalah sumber konflik yang harus dihindari.", correct: false },
+                    { text: "Keberagaman menjadi kekuatan untuk mencapai tujuan bersama dan mempererat persaudaraan.", correct: true },
+                    { text: "Setiap kelompok hanya peduli dengan kepentingannya sendiri tanpa memikirkan kelompok lain.", correct: false },
+                    { text: "Tradisi lokal harus dihilangkan untuk mencapai persatuan yang homogen.", correct: false },
+                    { text: "Pemerintah harus memaksa semua warga untuk memiliki pandangan yang seragam.", correct: false }
+                ],
+                explanation: "Bhinneka Tunggal Ika sebagai modal sosial berarti keberagaman suku, agama, ras, dan antargolongan menjadi aset dan kekuatan bangsa untuk membangun kerjasama, solidaritas, dan mencapai tujuan bersama."
+            },
+            {
+                indicator: "Peserta didik mampu menunjukkan sikap membangun harmoni dalam keberagaman.",
+                questionText: "Andi dan Budi memiliki pendapat berbeda mengenai cara terbaik merayakan hari kemerdekaan di sekolah. Andi ingin mengadakan lomba olahraga, sementara Budi mengusulkan pentas seni budaya. Sikap yang sebaiknya mereka tunjukkan untuk membangun harmoni adalah...",
+                options: [
+                    { text: "Masing-masing bersikeras dengan pendapatnya dan tidak mau mengalah sama sekali.", correct: false },
+                    { text: "Andi mengajak teman-temannya untuk menolak usulan Budi secara diam-diam.", correct: false },
+                    { text: "Mereka berdiskusi dengan kepala dingin, mencari kompromi, atau bahkan menggabungkan kedua ide tersebut jika memungkinkan.", correct: true },
+                    { text: "Melaporkan perbedaan pendapat tersebut kepada kepala sekolah agar diputuskan sepihak tanpa diskusi lebih lanjut.", correct: false },
+                    { text: "Tidak jadi mengadakan perayaan sama sekali untuk menghindari potensi konflik.", correct: false }
+                ],
+                explanation: "Membangun harmoni dalam keberagaman membutuhkan dialog yang konstruktif, sikap saling menghargai, dan kemampuan untuk mencari solusi bersama atau kompromi."
+            },
+            {
+                indicator: "Peserta didik mampu memahami dasar hukum pelaksanaan sistem ekonomi Pancasila.",
+                questionText: "Pemerintah Indonesia menetapkan bahwa cabang-cabang produksi yang penting bagi negara dan menguasai hajat hidup orang banyak dikelola oleh negara untuk sebesar-besarnya kemakmuran rakyat. Pasal berapakah dalam UUD NRI Tahun 1945 yang menjadi dasar konstitusional utama ketentuan tersebut?",
+                options: [
+                    { text: "Pasal 27 ayat 1", correct: false },
+                    { text: "Pasal 31 ayat 1", correct: false },
+                    { text: "Pasal 33 ayat 2 dan 3", correct: true },
+                    { text: "Pasal 28E ayat 1", correct: false },
+                    { text: "Pasal 29 ayat 2", correct: false }
+                ],
+                explanation: "Pasal 33 ayat (2) UUD NRI Tahun 1945 menyatakan bahwa cabang-cabang produksi yang penting bagi negara dan yang menguasai hajat hidup orang banyak dikuasai oleh negara. Ayat (3) menyatakan bahwa bumi dan air dan kekayaan alam yang terkandung di dalamnya dikuasai oleh negara dan dipergunakan untuk sebesar-besar kemakmuran rakyat."
+            },
+            {
+                indicator: "Peserta didik mampu membandingkan ciri-ciri sistem ekonomi Pancasila dengan liberal.",
+                questionText: "Perhatikan ciri-ciri sistem ekonomi berikut:\n1. Peran negara dominan dalam mengarahkan ekonomi untuk kesejahteraan bersama.\n2. Persaingan bebas menjadi motor utama penggerak ekonomi.\n3. Hak milik individu diakui dan dilindungi, namun pemanfaatannya tidak boleh bertentangan dengan kepentingan masyarakat.\n4. Keuntungan individu menjadi tujuan utama kegiatan ekonomi.\nManakah yang merupakan ciri khas Sistem Ekonomi Pancasila yang membedakannya dari sistem ekonomi liberal?",
+                options: [
+                    { text: "1 dan 2", correct: false },
+                    { text: "2 dan 4", correct: false },
+                    { text: "1 dan 3", correct: true },
+                    { text: "3 dan 4", correct: false },
+                    { text: "Semua benar untuk sistem ekonomi liberal.", correct: false }
+                ],
+                explanation: "Sistem Ekonomi Pancasila menekankan peran negara dalam mencapai kesejahteraan bersama (poin 1) dan pengakuan hak milik individu yang memiliki fungsi sosial (poin 3), yang berarti pemanfaatannya tidak boleh merugikan kepentingan umum. Sistem liberal lebih menekankan persaingan bebas (poin 2) dan keuntungan individu sebagai motif utama (poin 4)."
+            },
+             {
+                indicator: "Peserta didik mampu memberikan contoh penerapan gotong royong sebagai perwujudan sistem ekonomi Pancasila.",
+                questionText: "Para petani di Desa Sukamakmur membentuk koperasi untuk membeli pupuk secara bersama-sama dengan harga lebih murah dan menjual hasil panen mereka secara kolektif untuk mendapatkan harga yang lebih baik. Keuntungan koperasi kemudian dibagikan kembali kepada anggota atau digunakan untuk pengembangan usaha bersama. Praktik ini mencerminkan...",
+                options: [
+                    { text: "Persaingan usaha yang ketat antar petani untuk keuntungan individu.", correct: false },
+                    { text: "Penerapan sistem ekonomi liberal murni di tingkat desa.", correct: false },
+                    { text: "Semangat gotong royong dalam sistem ekonomi Pancasila untuk mencapai keadilan dan kesejahteraan bersama.", correct: true },
+                    { text: "Intervensi pasar oleh pihak luar yang merugikan petani kecil.", correct: false },
+                    { text: "Upaya individual untuk memaksimalkan keuntungan pribadi tanpa peduli sesama.", correct: false }
+                ],
+                explanation: "Koperasi adalah salah satu wujud nyata dari semangat gotong royong dalam sistem ekonomi Pancasila, di mana usaha bersama dilakukan berdasarkan asas kekeluargaan untuk mencapai kesejahteraan anggota dan masyarakat secara inklusif dan berkeadilan."
+            },
+            {
+                indicator: "Peserta didik mampu menerapkan perilaku, peran dan kedudukan sesuai dengan hak dan kewajiban.",
+                questionText: "Sebagai seorang pelajar, Rina selalu mengerjakan tugas sekolahnya dengan baik, mengikuti tata tertib sekolah, dan menghormati guru. Di sisi lain, Rina juga berhak mendapatkan pengajaran yang layak dan fasilitas belajar yang memadai dari sekolah. Perilaku Rina menunjukkan...",
+                options: [
+                    { text: "Penuntutan hak secara berlebihan tanpa melaksanakan kewajiban.", correct: false },
+                    { text: "Pelaksanaan kewajiban secara penuh tanpa memahami hak-haknya sebagai pelajar.", correct: false },
+                    { text: "Keseimbangan antara pelaksanaan hak dan pemenuhan kewajiban sebagai pelajar.", correct: true },
+                    { text: "Pengabaian terhadap peran dan kedudukannya di lingkungan sekolah.", correct: false },
+                    { text: "Sikap tidak peduli terhadap peraturan sekolah dan proses belajar.", correct: false }
+                ],
+                explanation: "Seorang warga negara, termasuk pelajar, memiliki hak yang harus diterima dan kewajiban yang harus dilaksanakan. Perilaku Rina mencerminkan pemahaman dan pelaksanaan yang seimbang antara hak dan kewajibannya sebagai pelajar sesuai dengan peran dan kedudukannya."
+            },
+            {
+                indicator: "Peserta didik mampu memahami definisi sistem pertahanan dan keamanan rakyat semesta (Sishankamrata).",
+                questionText: "Sistem pertahanan dan keamanan negara Indonesia menganut prinsip bahwa setiap warga negara berhak dan wajib ikut serta dalam usaha pembelaan negara. Sistem ini melibatkan seluruh komponen bangsa, baik militer maupun non-militer, secara terpadu, terarah, dan berkelanjutan. Sistem ini dikenal dengan istilah...",
+                options: [
+                    { text: "Sistem Pertahanan Total Agresif", correct: false },
+                    { text: "Sistem Keamanan Nasional Terpadu Partikelir", correct: false },
+                    { text: "Sistem Pertahanan dan Keamanan Rakyat Semesta (Sishankamrata)", correct: true },
+                    { text: "Doktrin Pertahanan Militeristik Eksklusif", correct: false },
+                    { text: "Sistem Kewaspadaan Dini Masyarakat Sipil", correct: false }
+                ],
+                explanation: "Sishankamrata adalah sistem pertahanan dan keamanan negara yang bersifat semesta, yang melibatkan seluruh warga negara, wilayah, dan sumber daya nasional lainnya, serta dipersiapkan secara dini oleh pemerintah dan diselenggarakan secara total, terpadu, terarah, dan berlanjut untuk menegakkan kedaulatan negara, keutuhan wilayah, dan keselamatan segenap bangsa dari segala ancaman."
+            },
+            {
+                indicator: "Peserta didik mampu memahami dasar hukum pelaksanaan sistem pertahanan dan keamanan negara Indonesia.",
+                questionText: "Keikutsertaan warga negara dalam upaya pembelaan negara merupakan amanat konstitusi. Landasan hukum utama yang mengatur tentang usaha pertahanan dan keamanan negara Indonesia adalah...",
+                options: [
+                    { text: "Pasal 27 ayat (1) UUD NRI Tahun 1945", correct: false },
+                    { text: "Pasal 28 UUD NRI Tahun 1945", correct: false },
+                    { text: "Pasal 30 ayat (1) dan (2) UUD NRI Tahun 1945", correct: true },
+                    { text: "Pasal 31 ayat (1) UUD NRI Tahun 1945", correct: false },
+                    { text: "TAP MPR No. VI/MPR/2000 tentang Pemisahan TNI dan POLRI", correct: false }
+                ],
+                explanation: "Pasal 30 ayat (1) UUD NRI Tahun 1945 menyatakan bahwa 'Tiap-tiap warga negara berhak dan wajib ikut serta dalam usaha pertahanan dan keamanan negara.' Ayat (2) menjelaskan bahwa usaha pertahanan dan keamanan negara dilaksanakan melalui sistem pertahanan dan keamanan rakyat semesta oleh Tentara Nasional Indonesia dan Kepolisian Negara Republik Indonesia, sebagai kekuatan utama, dan rakyat, sebagai kekuatan pendukung."
+            },
+            {
+                indicator: "Peserta didik mampu memahami pengertian dan tujuan hubungan internasional.",
+                questionText: "Indonesia aktif menjalin kerjasama dengan negara-negara lain di berbagai bidang seperti ekonomi, politik, dan sosial budaya. Salah satu tujuan utama Indonesia melakukan hubungan internasional adalah...",
+                options: [
+                    { text: "Untuk mengisolasi diri dari pengaruh global dan menjaga kemurnian budaya.", correct: false },
+                    { text: "Untuk menunjukkan superioritas bangsa Indonesia di kancah internasional.", correct: false },
+                    { text: "Untuk memenuhi kepentingan nasional, menjaga kedaulatan, dan ikut serta dalam menciptakan perdamaian dunia.", correct: true },
+                    { text: "Untuk menguasai sumber daya alam negara-negara lain demi keuntungan sepihak.", correct: false },
+                    { text: "Untuk mengganti ideologi Pancasila dengan ideologi asing yang dianggap lebih modern.", correct: false }
+                ],
+                explanation: "Tujuan hubungan internasional bagi Indonesia antara lain adalah untuk melindungi kepentingan nasional (seperti kedaulatan negara dan keutuhan wilayah), meningkatkan kesejahteraan rakyat, serta turut serta dalam melaksanakan ketertiban dunia yang berdasarkan kemerdekaan, perdamaian abadi, dan keadilan sosial, sesuai amanat Pembukaan UUD NRI Tahun 1945."
+            }
+        ];
+
+        // --- Variabel Global Kuis ---
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let userAnswers = []; // Untuk menyimpan jawaban pengguna dan statusnya
+
+        // --- Referensi Elemen DOM ---
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultScreen = document.getElementById('result-screen');
+
+        const totalQuestionsWelcomeEl = document.getElementById('total-questions-welcome');
+        const startQuizBtn = document.getElementById('start-quiz-btn');
+
+        const currentQuestionNumberEl = document.getElementById('current-question-number');
+        const totalQuestionsQuizEl = document.getElementById('total-questions-quiz');
+        const questionIndicatorEl = document.getElementById('question-indicator');
+        const questionTextEl = document.getElementById('question-text');
+        const optionsContainerEl = document.getElementById('options-container');
+        const nextBtn = document.getElementById('next-btn');
+        const feedbackMessageEl = document.getElementById('feedback-message');
+        const progressBarEl = document.getElementById('progress-bar');
+
+        const scoreValueEl = document.getElementById('score-value');
+        const totalQuestionsResultEl = document.getElementById('total-questions-result');
+        const correctAnswersCountEl = document.getElementById('correct-answers-count');
+        const wrongAnswersCountEl = document.getElementById('wrong-answers-count');
+        const detailedResultsEl = document.getElementById('detailed-results');
+        const restartQuizBtn = document.getElementById('restart-quiz-btn');
+        
+        // --- Fungsi-Fungsi Kuis ---
+
+        // Inisialisasi kuis
+        function initializeQuiz() {
+            totalQuestionsWelcomeEl.textContent = quizQuestions.length;
+            totalQuestionsQuizEl.textContent = quizQuestions.length;
+            totalQuestionsResultEl.textContent = quizQuestions.length;
+        }
+
+        // Memulai kuis
+        function startQuiz() {
+            welcomeScreen.classList.add('hidden');
+            quizScreen.classList.remove('hidden');
+            resultScreen.classList.add('hidden');
+            currentQuestionIndex = 0;
+            score = 0;
+            userAnswers = [];
+            loadQuestion();
+            updateProgressBar();
+        }
+
+        // Memuat pertanyaan
+        function loadQuestion() {
+            feedbackMessageEl.classList.add('hidden'); // Sembunyikan feedback dari soal sebelumnya
+            nextBtn.disabled = true; // Nonaktifkan tombol next sampai jawaban dipilih
+            nextBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+
+            const currentQuestion = quizQuestions[currentQuestionIndex];
+            currentQuestionNumberEl.textContent = currentQuestionIndex + 1;
+            questionIndicatorEl.textContent = `Indikator: ${currentQuestion.indicator}`;
+            questionTextEl.innerHTML = currentQuestion.questionText.replace(/\n/g, '<br>'); // Ganti newline dengan <br>
+            
+            optionsContainerEl.innerHTML = ''; // Kosongkan opsi sebelumnya
+
+            currentQuestion.options.forEach((option, index) => {
+                const optionButton = document.createElement('button');
+                optionButton.classList.add('option-btn', 'btn');
+                optionButton.innerHTML = option.text; // Menggunakan innerHTML agar format seperti nomor urut bisa dirender
+                optionButton.addEventListener('click', () => selectOption(index, optionButton));
+                optionsContainerEl.appendChild(optionButton);
+            });
+            updateProgressBar();
+        }
+        
+        // Memilih jawaban
+        function selectOption(selectedIndex, selectedButton) {
+            const currentQuestion = quizQuestions[currentQuestionIndex];
+            const isCorrect = currentQuestion.options[selectedIndex].correct;
+            const explanation = currentQuestion.explanation; // Ambil penjelasan dari data soal
+
+            // Nonaktifkan semua tombol opsi setelah satu dipilih
+            const optionButtons = optionsContainerEl.querySelectorAll('.option-btn');
+            optionButtons.forEach(button => {
+                button.disabled = true;
+                button.classList.add('opacity-70', 'cursor-not-allowed'); 
+            });
+
+            // Tandai tombol yang dipilih
+            selectedButton.classList.add('selected');
+
+            if (isCorrect) {
+                score++;
+                selectedButton.classList.add('correct');
+                // Tampilkan pesan benar beserta penjelasan
+                feedbackMessageEl.innerHTML = `Jawaban Anda Benar!<br><strong class="font-semibold mt-1 block">Penjelasan:</strong> ${explanation}`;
+                feedbackMessageEl.className = 'feedback-correct p-3 rounded-md mt-4 text-left';
+            } else {
+                selectedButton.classList.add('incorrect');
+                // Tampilkan pesan salah beserta penjelasan
+                feedbackMessageEl.innerHTML = `Jawaban Anda Salah.<br><strong class="font-semibold mt-1 block">Penjelasan:</strong> ${explanation}`;
+                feedbackMessageEl.className = 'feedback-incorrect p-3 rounded-md mt-4 text-left';
+                // Tunjukkan jawaban yang benar
+                currentQuestion.options.forEach((opt, idx) => {
+                    if (opt.correct) {
+                        optionButtons[idx].classList.add('correct');
+                    }
+                });
+            }
+            feedbackMessageEl.classList.remove('hidden'); // Tampilkan area feedback
+
+            // Simpan jawaban pengguna
+            userAnswers[currentQuestionIndex] = {
+                questionText: currentQuestion.questionText,
+                selectedAnswerText: currentQuestion.options[selectedIndex].text,
+                correctAnswerText: currentQuestion.options.find(opt => opt.correct).text,
+                isCorrect: isCorrect,
+                explanation: currentQuestion.explanation // Penjelasan juga disimpan untuk halaman hasil
+            };
+            
+            nextBtn.disabled = false; // Aktifkan tombol next
+            nextBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+
+            if (currentQuestionIndex === quizQuestions.length - 1) {
+                nextBtn.textContent = 'Lihat Hasil';
+            } else {
+                nextBtn.textContent = 'Soal Berikutnya';
+            }
+        }
+
+        // Pertanyaan berikutnya atau tampilkan hasil
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizQuestions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        // Tampilkan hasil kuis
+        function showResults() {
+            quizScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+
+            scoreValueEl.textContent = score;
+            correctAnswersCountEl.textContent = score;
+            wrongAnswersCountEl.textContent = quizQuestions.length - score;
+
+            detailedResultsEl.innerHTML = ''; // Kosongkan hasil detail sebelumnya
+            userAnswers.forEach((answer, index) => {
+                const listItem = document.createElement('li');
+                listItem.classList.add('mb-4', 'p-4', 'rounded-lg', 'border');
+
+                let userAnswerTextClass = answer.isCorrect ? 'user-answer-text-correct' : 'user-answer-text-incorrect';
+                
+                listItem.innerHTML = `
+                    <p class="font-semibold text-gray-800">Pertanyaan ${index + 1}:</p>
+                    <p class="text-gray-700 mb-1">${answer.questionText.replace(/\n/g, '<br>')}</p>
+                    <p class="text-sm">Jawaban Anda: <span class="${userAnswerTextClass}">${answer.selectedAnswerText}</span></p>
+                    ${!answer.isCorrect ? `<p class="text-sm">Jawaban Benar: <span class="correct-answer-text">${answer.correctAnswerText}</span></p>` : ''}
+                    <p class="text-sm mt-1 pt-1 border-t border-gray-200 text-indigo-600"><em><strong class="font-semibold">Penjelasan:</strong> ${answer.explanation}</em></p>
+                `;
+                listItem.classList.add(answer.isCorrect ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200');
+                detailedResultsEl.appendChild(listItem);
+            });
+        }
+
+        // Mengulang kuis
+        function restartQuiz() {
+            resultScreen.classList.add('hidden');
+            welcomeScreen.classList.remove('hidden');
+            // Reset progress bar juga jika diperlukan saat kembali ke welcome screen
+             progressBarEl.style.width = `0%`;
+        }
+
+        // Update progress bar
+        function updateProgressBar() {
+            const progressPercentage = (currentQuestionIndex / quizQuestions.length) * 100;
+            progressBarEl.style.width = `${progressPercentage}%`;
+        }
+
+        // --- Event Listeners ---
+        startQuizBtn.addEventListener('click', startQuiz);
+        nextBtn.addEventListener('click', nextQuestion);
+        restartQuizBtn.addEventListener('click', restartQuiz);
+
+        // --- Inisialisasi ---
+        initializeQuiz();
+
+    </script>
+</body>
+</html>
